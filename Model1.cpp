@@ -47,28 +47,11 @@ void Model1::model() {
   this->U = sin(lambda2 * this->rm * 2.0 + phi0_rad * 2.0) * this->p;
 }
 
-double Model1::log_likelihood() {
-  this->model();
-  const Data& data = Data::get_instance();
-  auto& q = data.get_q();
-  auto& u = data.get_u();
-  auto& dq = data.get_dq();
-  auto& du = data.get_du();
-  auto& dQU = data.get_dQU();
-
-  double chisq = (
-    std::pow((q - this->Q) / dq, 2.0) +
-    std::pow((u - this->U) / du, 2.0) +
-    dQU
-  ).sum();
-
-  return -chisq / 2.0;
+std::string Model1::description() const {
+  return std::string("p, phi0, rm");
 }
 
 void Model1::print(std::ostream &out) const {
   out << p << ' ' << phi0 << ' ' << rm;
 }
 
-std::string Model1::description() const {
-  return std::string("p, phi0, rm");
-}

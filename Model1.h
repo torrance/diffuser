@@ -8,21 +8,17 @@
 #include <valarray>
 
 #include "DNest4.h"
+#include "Model.h"
 
-class Model1 {
+class Model1 : public Model {
   private:
-    int params = 3;
     double p, phi0, rm;
-
-    std::valarray<double> Q;
-    std::valarray<double> U;
     void model();
 
   public:
-    double log_likelihood();
-    void print(std::ostream &out) const;
-    std::string description() const;
     void from_prior(DNest4::RNG &rng);
     double perturb(DNest4::RNG &rng);
+    std::string description() const;
+    void print(std::ostream &out) const;
 };
 #endif
