@@ -9,7 +9,7 @@
 #include "DNest4.h"
 
 void Model1::from_prior(DNest4::RNG &rng) {
-  this->p = exp(-4 + 4 * rng.rand());
+  this->p = std::exp(-4 + 4 * rng.rand());
   this->phi0 = rng.rand() * 180;
   this->rm = rng.randn() * 500;
 }
@@ -26,15 +26,18 @@ double Model1::perturb(DNest4::RNG &rng) {
       this->p = std::exp(log_p_dash);
 
       log_H =  log_p - log_p_dash;
+      break;
     }
     case 1:
       this->phi0 += rng.randh() * 180;
       DNest4::wrap(this->phi0, 0, 180);
       log_H = 1;
+      break;
     case 2:
       log_H -= -0.5 * std::pow(this->rm / 500, 2);
       this->rm += rng.randh() * 500;
       log_H += -0.5 * std::pow(this->rm / 500, 2);
+      break;
   }
 
   return log_H;
@@ -42,7 +45,7 @@ double Model1::perturb(DNest4::RNG &rng) {
 
 void Model1::model() {
   const auto& lambda2 = Data::get_instance().get_lambda2();
-  auto  phi0_rad = (this->phi0 * M_PI) / 180.0;
+  auto phi0_rad = (this->phi0 * M_PI) / 180.0;
   this->Q = cos(lambda2 * this->rm * 2.0 + phi0_rad * 2.0) * this->p;
   this->U = sin(lambda2 * this->rm * 2.0 + phi0_rad * 2.0) * this->p;
 }

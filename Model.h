@@ -1,3 +1,6 @@
+#ifndef Diffuser_Model
+#define Diffuser_Model
+
 #include <ostream>
 #include <string>
 #include <valarray>
@@ -18,3 +21,4 @@ class Model {
     std::valarray<double> U;
 
 };
+#endif
