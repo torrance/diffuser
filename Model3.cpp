@@ -15,7 +15,7 @@ void Model3::from_prior(DNest4::RNG &rng) {
   this->phi02 = rng.rand() * 180;
   this->rm1 = rng.randn() * 500;
   this->rm2 = rng.randn() * 500;
-  this->sigma = std::exp(-5 + 5 * rng.rand());
+  this->sigma = std::exp(-4 + 5 * rng.rand());
 }
 
 double Model3::perturb(DNest4::RNG &rng) {
@@ -63,8 +63,8 @@ double Model3::perturb(DNest4::RNG &rng) {
       break;
     case 6: {
       double log_sigma = std::log(this->sigma);
-      double log_sigma_dash = log_sigma + 10 * rng.randh();
-      DNest4::wrap(log_sigma_dash, -5, 5);
+      double log_sigma_dash = log_sigma + 9 * rng.randh();
+      DNest4::wrap(log_sigma_dash, -4, 5);
       this->sigma = std::exp(log_sigma_dash);
 
       log_H = log_sigma - log_sigma_dash;

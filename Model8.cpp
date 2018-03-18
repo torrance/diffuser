@@ -18,9 +18,9 @@ void Model8::from_prior(DNest4::RNG &rng) {
   this->rm1 = rng.randn() * 500;
   this->rm2 = rng.randn() * 500;
   this->rm3 = rng.randn() * 500;
-  this->sigma1 = std::exp(-5 + 5 * rng.rand());
-  this->sigma2 = std::exp(-5 + 5 * rng.rand());
-  this->sigma3 = std::exp(-5 + 5 * rng.rand());
+  this->sigma1 = std::exp(-4 + 5 * rng.rand());
+  this->sigma2 = std::exp(-4 + 5 * rng.rand());
+  this->sigma3 = std::exp(-4 + 5 * rng.rand());
 }
 
 double Model8::perturb(DNest4::RNG &rng) {
@@ -87,8 +87,8 @@ double Model8::perturb(DNest4::RNG &rng) {
       break;
     case 9: {
       double log_sigma = std::log(this->sigma1);
-      double log_sigma_dash = log_sigma + 10 * rng.randh();
-      DNest4::wrap(log_sigma_dash, -5, 5);
+      double log_sigma_dash = log_sigma + 9 * rng.randh();
+      DNest4::wrap(log_sigma_dash, -4, 5);
       this->sigma1 = std::exp(log_sigma_dash);
 
       log_H = log_sigma - log_sigma_dash;
@@ -96,8 +96,8 @@ double Model8::perturb(DNest4::RNG &rng) {
     }
     case 10: {
       double log_sigma = std::log(this->sigma2);
-      double log_sigma_dash = log_sigma + 10 * rng.randh();
-      DNest4::wrap(log_sigma_dash, -5, 5);
+      double log_sigma_dash = log_sigma + 9 * rng.randh();
+      DNest4::wrap(log_sigma_dash, -4, 5);
       this->sigma2 = std::exp(log_sigma_dash);
 
       log_H = log_sigma - log_sigma_dash;
@@ -105,8 +105,8 @@ double Model8::perturb(DNest4::RNG &rng) {
     }
     case 11: {
       double log_sigma = std::log(this->sigma3);
-      double log_sigma_dash = log_sigma + 10 * rng.randh();
-      DNest4::wrap(log_sigma_dash, -5, 5);
+      double log_sigma_dash = log_sigma + 9 * rng.randh();
+      DNest4::wrap(log_sigma_dash, -4, 5);
       this->sigma3 = std::exp(log_sigma_dash);
 
       log_H = log_sigma - log_sigma_dash;
