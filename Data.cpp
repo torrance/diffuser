@@ -76,7 +76,6 @@ void Data::load(const std::string filename) {
   this->du = std::valarray<double>(du.data(), du.size()) / i_fit;
   this->dQU = std::sqrt(std::pow(this->dq, 2.0) + std::pow(this->du, 2.0));
   this->dQU = std::log(std::pow(this->dQU, 2.0) * M_PI * 2.0);
-
 }
 
 const std::valarray<double> &Data::get_lambda2() const {
