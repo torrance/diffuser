@@ -2,6 +2,7 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <random>
+#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <valarray>
@@ -75,18 +76,20 @@ int main(int argc, char** argv)
 
   // Create paths of additional output files
   std::experimental::filesystem::path path(filename->value());
-  auto sampletxt = path.replace_filename(
-    std::string("ds") + std::to_string(model_number) + std::string("_sample.txt")
-  );
-  auto sampleinfotxt = path.replace_filename(
-    std::string("ds") + std::to_string(model_number) + std::string("_sample_info.txt")
-  );
-  auto levels = path.replace_filename(
-    std::string("ds") + std::to_string(model_number) + std::string("_levels.txt")
-  );
+  path.replace_filename(std::string("ds") + std::to_string(model_number));
+  try {
+    std::experimental::filesystem::create_directory(path);
+  }
+  catch (const std::exception& e) {
+    std::cout << "Failed to create output directory: " << path << "\n";
+    std::cout << e.what();
+    return 1;
+  }
+  auto sampletxt = path / "sample.txt";
+  auto sampleinfotxt = path / "sample_info.txt";
+  auto levels = path / "levels.txt";
   std::cout << "# Saving output files to " << sampletxt << ", "
             << sampleinfotxt << ", and " << levels << "\n";
-
 
   // Create options object for DNest4
   // DNest4 options doesn't allow us to set filenames
